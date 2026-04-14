@@ -1,0 +1,29 @@
+# OS / Editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+
+# Backend (Laravel)
+backend_laravel/vendor/
+backend_laravel/.env
+backend_laravel/storage/*.key
+backend_laravel/storage/logs/
+backend_laravel/storage/framework/cache/
+backend_laravel/storage/framework/sessions/
+backend_laravel/storage/framework/views/
+backend_laravel/bootstrap/cache/*.php
+
+# Databases
+backend_laravel/database/*.sqlite
+
+# Coverage / artifacts
+coverage/
+*.coverage
