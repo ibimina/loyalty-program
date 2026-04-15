@@ -1,12 +1,13 @@
 import { motion } from 'framer-motion';
-import { FiMail, FiUser } from 'react-icons/fi';
-import { UserData } from '../types';
+import { FiAward, FiMail, FiShoppingBag, FiUser } from 'react-icons/fi';
+import { Stats, UserData } from '../types';
 
 interface ProfileCardProps {
   user: UserData;
+  stats: Stats;
 }
 
-export default function ProfileCard({ user }: ProfileCardProps) {
+export default function ProfileCard({ user, stats }: ProfileCardProps) {
   return (
     <motion.div
       initial={{ opacity: 0, x: -20 }}
@@ -35,9 +36,25 @@ export default function ProfileCard({ user }: ProfileCardProps) {
       </div>
 
       <div className="rounded-xl bg-gray-50 dark:bg-gray-700/40 p-4 border border-gray-100 dark:border-gray-700">
-        <p className="text-sm text-gray-600 dark:text-gray-300">
-          Track your rewards journey, unlock achievements, and earn cashback as you move through badge tiers.
-        </p>
+        <div className="flex items-center justify-between py-2 border-b border-gray-200 dark:border-gray-600">
+          <span className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
+            <FiShoppingBag className="w-4 h-4 text-primary-500" />
+            Total Purchases
+          </span>
+          <span className="font-semibold text-gray-900 dark:text-white">
+            {stats.total_purchases}
+          </span>
+        </div>
+
+        <div className="flex items-center justify-between pt-3">
+          <span className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
+            <FiAward className="w-4 h-4 text-yellow-500" />
+            Achievements
+          </span>
+          <span className="font-semibold text-gray-900 dark:text-white">
+            {stats.total_achievements_unlocked}/{stats.total_achievements_available}
+          </span>
+        </div>
       </div>
     </motion.div>
   );

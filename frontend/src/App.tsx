@@ -145,7 +145,7 @@ function App() {
                 <>
                   {/* Top Section: Profile & Current Badge */}
                   <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <ProfileCard user={data.user} />
+                    <ProfileCard user={data.user} stats={data.stats} />
                     <div className="lg:col-span-2">
                       <BadgeDisplay
                         currentBadge={data.badges.current}
