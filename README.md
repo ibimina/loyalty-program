@@ -1,4 +1,4 @@
-# Loyalty Program Assessment (Mid-Level Full-Stack)
+# Loyalty Program Assessment
 
 A full-stack loyalty feature for an e-commerce store where customers unlock achievements and earn badge-based cashback rewards.
 
