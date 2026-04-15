@@ -27,11 +27,13 @@ export default function StatsCards({
     },
     {
       icon: FiFlag,
-      label: 'To Next Badge',
+      label: 'Achievements To Next Badge',
       value: nextBadge ? remainingToUnlock : 0,
       color: 'from-amber-500 to-orange-500',
       bgColor: 'bg-amber-50 dark:bg-amber-900/20',
-      helper: nextBadge ? 'achievements left' : 'completed',
+      helper: nextBadge
+        ? `unlock ${nextBadge.name} badge`
+        : 'all badges completed',
     },
     {
       icon: FiTrendingUp,
@@ -43,11 +45,13 @@ export default function StatsCards({
     },
     {
       icon: FiShoppingCart,
-      label: 'To Next Achievement',
+      label: 'Next Achievement In',
       value: purchasesToNextAchievement,
       color: 'from-indigo-500 to-violet-600',
       bgColor: 'bg-indigo-50 dark:bg-indigo-900/20',
-      helper: purchasesToNextAchievement === 0 ? 'ready to unlock' : 'purchases needed',
+      helper: purchasesToNextAchievement === 0
+        ? 'ready to unlock now'
+        : `${purchasesToNextAchievement} ${purchasesToNextAchievement === 1 ? 'purchase' : 'purchases'} needed`,
     },
   ];
 

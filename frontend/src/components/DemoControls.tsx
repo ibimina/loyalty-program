@@ -8,7 +8,8 @@ interface DemoControlsProps {
 }
 
 export default function DemoControls({ onSimulatePurchase, onResetProgress }: DemoControlsProps) {
-  const [busy, setBusy] = useState(false);
+  const [activeAction, setActiveAction] = useState<'simulate' | 'reset' | null>(null);
+  const busy = activeAction !== null;
 
   const handleSimulate = async () => {
     if (busy) {
@@ -16,10 +17,10 @@ export default function DemoControls({ onSimulatePurchase, onResetProgress }: De
     }
 
     try {
-      setBusy(true);
+      setActiveAction('simulate');
       await onSimulatePurchase();
     } finally {
-      setBusy(false);
+      setActiveAction(null);
     }
   };
 
@@ -29,10 +30,10 @@ export default function DemoControls({ onSimulatePurchase, onResetProgress }: De
     }
 
     try {
-      setBusy(true);
+      setActiveAction('reset');
       await onResetProgress();
     } finally {
-      setBusy(false);
+      setActiveAction(null);
     }
   };
 
@@ -59,8 +60,8 @@ export default function DemoControls({ onSimulatePurchase, onResetProgress }: De
             onClick={handleReset}
             className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100 font-medium border border-gray-200 dark:border-gray-600 disabled:opacity-70"
           >
-            {busy ? <FiLoader className="w-4 h-4 animate-spin" /> : <FiRotateCcw className="w-4 h-4" />}
-            Reset Progress
+            {activeAction === 'reset' ? <FiLoader className="w-4 h-4 animate-spin" /> : <FiRotateCcw className="w-4 h-4" />}
+            {activeAction === 'reset' ? 'Resetting...' : 'Reset Progress'}
           </motion.button>
 
           <motion.button
@@ -70,8 +71,8 @@ export default function DemoControls({ onSimulatePurchase, onResetProgress }: De
             onClick={handleSimulate}
             className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-primary-600 to-primary-500 text-white font-medium shadow-md disabled:opacity-70"
           >
-            {busy ? <FiLoader className="w-4 h-4 animate-spin" /> : <FiPlay className="w-4 h-4" />}
-            {busy ? 'Processing...' : 'Simulate Purchase'}
+            {activeAction === 'simulate' ? <FiLoader className="w-4 h-4 animate-spin" /> : <FiPlay className="w-4 h-4" />}
+            {activeAction === 'simulate' ? 'Processing...' : 'Simulate Purchase'}
           </motion.button>
         </div>
       </div>
