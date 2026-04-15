@@ -162,4 +162,23 @@ class AchievementServiceTest extends TestCase
         $shopaholic = $all->firstWhere('key', 'shopaholic');
         $this->assertFalse($shopaholic['unlocked']);
     }
+
+    /** @test */
+    public function it_tracks_purchase_progress_between_gold_and_platinum_badges()
+    {
+        // 28 purchases unlock up to 25-purchase achievement (Gold badge),
+        // and should show partial progress toward 50-purchase (Platinum).
+        Purchase::factory()->count(28)->create(['user_id' => $this->user->id]);
+        $this->service->processAchievements($this->user);
+        $this->user->refresh();
+
+        $badge = $this->service->getCurrentBadge($this->user);
+        $this->assertEquals('gold', $badge['key']);
+
+        $progress = $this->service->getProgressPercentage($this->user);
+
+        // From 25 -> 50 purchases, 28 should be about 12% progress.
+        $this->assertGreaterThanOrEqual(10, $progress);
+        $this->assertLessThanOrEqual(15, $progress);
+    }
 }

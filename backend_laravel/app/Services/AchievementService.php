@@ -217,13 +217,34 @@ class AchievementService
             return 100; // Already at max badge
         }
 
-        $achievementCount = $user->achievements()->count();
+        $purchaseCount = $user->purchases()->count();
         $currentRequired = $currentBadge['achievements_required'];
         $nextRequired = $nextBadge['achievements_required'];
 
-        $progress = $achievementCount - $currentRequired;
-        $total = $nextRequired - $currentRequired;
+        $sortedAchievements = $this->purchaseAchievements
+            ->sortBy('condition')
+            ->values();
 
-        return min(100, (int) (($progress / $total) * 100));
+        // Baseline milestone is the condition that delivered the current badge boundary.
+        $baseCondition = 0;
+        if ($currentRequired > 0 && $sortedAchievements->has($currentRequired - 1)) {
+            $baseCondition = (int) $sortedAchievements[$currentRequired - 1]['condition'];
+        }
+
+        // Target milestone is the condition needed to reach the next badge boundary.
+        if (!$sortedAchievements->has($nextRequired - 1)) {
+            return 100;
+        }
+        $targetCondition = (int) $sortedAchievements[$nextRequired - 1]['condition'];
+
+        if ($targetCondition <= $baseCondition) {
+            return 100;
+        }
+
+        $boundedPurchases = max($baseCondition, min($purchaseCount, $targetCondition));
+        $progress = $boundedPurchases - $baseCondition;
+        $total = $targetCondition - $baseCondition;
+
+        return min(100, max(0, (int) round(($progress / $total) * 100)));
     }
 }
