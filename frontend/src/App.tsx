@@ -132,9 +132,20 @@ function App() {
             transition={{ duration: 0.5 }}
             className="space-y-8"
           >
+            {(() => {
+              const nextLockedAchievement = data.achievements.all
+                .filter((a) => !a.unlocked)
+                .sort((a, b) => a.condition - b.condition)[0];
+
+              const purchasesToNextAchievement = nextLockedAchievement
+                ? Math.max(0, nextLockedAchievement.condition - data.stats.total_purchases)
+                : 0;
+
+              return (
+                <>
             {/* Top Section: Profile & Current Badge */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-              <ProfileCard user={data.user} stats={data.stats} />
+              <ProfileCard user={data.user} />
               <div className="lg:col-span-2">
                 <BadgeDisplay
                   currentBadge={data.badges.current}
@@ -146,7 +157,14 @@ function App() {
             </div>
 
             {/* Stats Section */}
-            <StatsCards stats={data.stats} />
+            <StatsCards
+              stats={data.stats}
+              currentBadge={data.badges.current}
+              nextBadge={data.badges.next}
+              remainingToUnlock={data.remaining_to_unlock_next_badge}
+              progressPercentage={data.progress_percentage}
+              purchasesToNextAchievement={purchasesToNextAchievement}
+            />
 
             {/* Progress Section */}
             <ProgressSection
@@ -157,6 +175,9 @@ function App() {
               achievementsUnlocked={data.achievements.unlocked.length}
             />
 
+            {/* Demo Controls */}
+            <DemoControls onSimulatePurchase={handleSimulatePurchase} />
+
             {/* Badge Roadmap */}
             <BadgeRoadmap badges={data.badges.all} currentBadgeKey={data.badges.current.key} />
 
@@ -166,9 +187,9 @@ function App() {
               unlockedAchievements={data.achievements.unlocked}
               nextAvailable={data.achievements.next_available}
             />
-
-            {/* Demo Controls */}
-            <DemoControls onSimulatePurchase={handleSimulatePurchase} />
+                </>
+              );
+            })()}
           </motion.div>
         ) : null}
       </main>
