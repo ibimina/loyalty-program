@@ -37,4 +37,12 @@ export const simulatePurchase = async (userId: number, amount: number, productNa
   return response.data;
 };
 
+/**
+ * Reset demo progress for a user.
+ */
+export const resetUserProgress = async (userId: number) => {
+  const response = await api.post(`/users/${userId}/reset-progress`);
+  return response.data;
+};
+
 export default api;

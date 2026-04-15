@@ -4,7 +4,7 @@ import Confetti from 'react-confetti';
 import toast from 'react-hot-toast';
 
 import { AchievementsResponse } from './types';
-import { fetchUserAchievements, simulatePurchase } from './services/api';
+import { fetchUserAchievements, resetUserProgress, simulatePurchase } from './services/api';
 
 import Header from './components/Header';
 import ProfileCard from './components/ProfileCard';
@@ -92,6 +92,22 @@ function App() {
     }
   };
 
+  const handleResetProgress = async () => {
+    try {
+      await resetUserProgress(DEMO_USER_ID);
+      const refreshed = await loadData();
+
+      if (!refreshed) {
+        toast.error('Reset completed, but refresh failed.');
+        return;
+      }
+
+      toast.success('Demo progress reset successfully.');
+    } catch (err) {
+      toast.error('Failed to reset demo progress');
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 transition-colors duration-300">
       {/* Confetti animation for badge unlock */}
@@ -175,7 +191,10 @@ function App() {
                   />
 
                   {/* Demo Controls */}
-                  <DemoControls onSimulatePurchase={handleSimulatePurchase} />
+                  <DemoControls
+                    onSimulatePurchase={handleSimulatePurchase}
+                    onResetProgress={handleResetProgress}
+                  />
 
                   {/* Badge Roadmap */}
                   <BadgeRoadmap badges={data.badges.all} currentBadgeKey={data.badges.current.key} />

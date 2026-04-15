@@ -44,6 +44,10 @@ Route::prefix('users/{user}')->group(function () {
     // Simulate a purchase (for demo purposes)
     Route::post('/purchases', [PurchaseController::class, 'store'])
         ->name('api.users.purchases.store');
+
+    // Reset demo progress for repeatable testing
+    Route::post('/reset-progress', [PurchaseController::class, 'resetProgress'])
+        ->name('api.users.reset-progress');
     
     // Get purchase history
     Route::get('/purchases', [PurchaseController::class, 'index'])

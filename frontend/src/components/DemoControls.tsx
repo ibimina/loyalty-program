@@ -1,15 +1,16 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FiPlay, FiLoader } from 'react-icons/fi';
+import { FiPlay, FiLoader, FiRotateCcw } from 'react-icons/fi';
 
 interface DemoControlsProps {
   onSimulatePurchase: () => Promise<void>;
+  onResetProgress: () => Promise<void>;
 }
 
-export default function DemoControls({ onSimulatePurchase }: DemoControlsProps) {
+export default function DemoControls({ onSimulatePurchase, onResetProgress }: DemoControlsProps) {
   const [busy, setBusy] = useState(false);
 
-  const handleClick = async () => {
+  const handleSimulate = async () => {
     if (busy) {
       return;
     }
@@ -17,6 +18,19 @@ export default function DemoControls({ onSimulatePurchase }: DemoControlsProps) 
     try {
       setBusy(true);
       await onSimulatePurchase();
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  const handleReset = async () => {
+    if (busy) {
+      return;
+    }
+
+    try {
+      setBusy(true);
+      await onResetProgress();
     } finally {
       setBusy(false);
     }
@@ -37,16 +51,29 @@ export default function DemoControls({ onSimulatePurchase }: DemoControlsProps) 
           </p>
         </div>
 
-        <motion.button
-          whileHover={{ scale: 1.02 }}
-          whileTap={{ scale: 0.98 }}
-          disabled={busy}
-          onClick={handleClick}
-          className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-primary-600 to-primary-500 text-white font-medium shadow-md disabled:opacity-70"
-        >
-          {busy ? <FiLoader className="w-4 h-4 animate-spin" /> : <FiPlay className="w-4 h-4" />}
-          {busy ? 'Processing...' : 'Simulate Purchase'}
-        </motion.button>
+        <div className="flex items-center gap-3">
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            disabled={busy}
+            onClick={handleReset}
+            className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-100 font-medium border border-gray-200 dark:border-gray-600 disabled:opacity-70"
+          >
+            {busy ? <FiLoader className="w-4 h-4 animate-spin" /> : <FiRotateCcw className="w-4 h-4" />}
+            Reset Progress
+          </motion.button>
+
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            disabled={busy}
+            onClick={handleSimulate}
+            className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-primary-600 to-primary-500 text-white font-medium shadow-md disabled:opacity-70"
+          >
+            {busy ? <FiLoader className="w-4 h-4 animate-spin" /> : <FiPlay className="w-4 h-4" />}
+            {busy ? 'Processing...' : 'Simulate Purchase'}
+          </motion.button>
+        </div>
       </div>
     </motion.section>
   );

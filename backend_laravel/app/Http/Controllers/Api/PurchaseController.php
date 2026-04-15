@@ -8,6 +8,7 @@ use App\Models\Purchase;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 /**
@@ -64,4 +65,38 @@ class PurchaseController extends Controller
             ],
         ], 201);
     }
+
+    /**
+     * Reset demo progress for a user.
+     *
+     * Clears purchases, unlocked achievements, and cashback records so
+     * the demo flow can be replayed from a clean state.
+     */
+    public function resetProgress(User $user): JsonResponse
+    {
+        if (!app()->environment('local')) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Reset is only available in local environment.',
+            ], 403);
+        }
+
+        DB::transaction(function () use ($user): void {
+            $user->purchases()->delete();
+            $user->achievements()->detach();
+            $user->cashbackPayments()->delete();
+        });
+
+        return response()->json([
+            'success' => true,
+            'message' => 'User demo progress reset successfully.',
+            'data' => [
+                'user_id' => $user->id,
+                'total_purchases' => 0,
+                'total_achievements' => 0,
+                'total_cashback_earned' => 0,
+            ],
+        ]);
+    }
+
 }
