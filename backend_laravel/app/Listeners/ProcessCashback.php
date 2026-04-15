@@ -33,7 +33,8 @@ class ProcessCashback implements ShouldQueue
      */
     public function __construct(
         protected PaymentService $paymentService
-    ) {}
+    ) {
+    }
 
     /**
      * Handle the event.

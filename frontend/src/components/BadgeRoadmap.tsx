@@ -63,13 +63,12 @@ export default function BadgeRoadmap({ badges, currentBadgeKey }: BadgeRoadmapPr
                 initial={{ opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 + index * 0.08 }}
-                className={`relative flex min-h-[184px] w-[148px] flex-col items-center justify-center rounded-2xl border p-4 text-center transition-all duration-300 ${
-                  isCurrent
+                className={`relative flex min-h-[184px] w-[148px] flex-col items-center justify-center rounded-2xl border p-4 text-center transition-all duration-300 ${isCurrent
                     ? 'border-primary-400 bg-primary-50/70 shadow-md dark:border-primary-600 dark:bg-primary-900/20'
                     : isUnlocked
                       ? 'border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800'
                       : 'border-gray-200 bg-gray-50/70 dark:border-gray-700 dark:bg-gray-800/60'
-                }`}
+                  }`}
               >
                 {isCurrent && (
                   <span className="absolute right-2 top-2 inline-flex h-5 w-5 items-center justify-center rounded-full bg-primary-500 text-[11px] font-bold text-white">
@@ -97,9 +96,8 @@ export default function BadgeRoadmap({ badges, currentBadgeKey }: BadgeRoadmapPr
                 </div>
 
                 <p
-                  className={`text-sm font-semibold ${
-                    isUnlocked ? 'text-gray-900 dark:text-white' : 'text-gray-400 dark:text-gray-500'
-                  }`}
+                  className={`text-sm font-semibold ${isUnlocked ? 'text-gray-900 dark:text-white' : 'text-gray-400 dark:text-gray-500'
+                    }`}
                 >
                   {badge.name}
                 </p>
@@ -111,9 +109,8 @@ export default function BadgeRoadmap({ badges, currentBadgeKey }: BadgeRoadmapPr
 
                 {badge.cashback_amount > 0 && (
                   <p
-                    className={`mt-1 text-xs font-medium ${
-                      isUnlocked ? 'text-green-600 dark:text-green-400' : 'text-gray-400 dark:text-gray-500'
-                    }`}
+                    className={`mt-1 text-xs font-medium ${isUnlocked ? 'text-green-600 dark:text-green-400' : 'text-gray-400 dark:text-gray-500'
+                      }`}
                   >
                     +₦{badge.cashback_amount}
                   </p>
@@ -121,8 +118,8 @@ export default function BadgeRoadmap({ badges, currentBadgeKey }: BadgeRoadmapPr
               </motion.div>
             );
           })}
-          </div>
         </div>
+      </div>
     </motion.div>
   );
 }

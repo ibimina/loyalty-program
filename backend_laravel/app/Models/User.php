@@ -70,7 +70,7 @@ class User extends Authenticatable
     {
         $achievementCount = $this->achievements()->count();
         $badges = collect(config('achievements.badges'));
-        
+
         return $badges->filter(function ($badge) use ($achievementCount) {
             return $achievementCount >= $badge['achievements_required'];
         })->last() ?? $badges->first();

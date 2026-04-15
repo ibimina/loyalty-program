@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\UserAchievementsResource;
 use App\Models\User;
 use App\Services\AchievementService;
 use Illuminate\Http\JsonResponse;
@@ -15,7 +14,8 @@ class AchievementController extends Controller
 {
     public function __construct(
         protected AchievementService $achievementService
-    ) {}
+    ) {
+    }
 
     /**
      * Get user's achievements and badge information.
@@ -45,7 +45,7 @@ class AchievementController extends Controller
         $unlockedAchievements = $this->achievementService->getUnlockedAchievements($user);
         $nextAvailableAchievements = $this->achievementService->getNextAvailableAchievements($user);
         $allAchievementsWithStatus = $this->achievementService->getAllAchievementsWithStatus($user);
-        
+
         // Get badge data
         $currentBadge = $this->achievementService->getCurrentBadge($user);
         $nextBadge = $this->achievementService->getNextBadge($user);
@@ -69,30 +69,30 @@ class AchievementController extends Controller
                     'name' => $user->name,
                     'email' => $user->email,
                 ],
-                
+
                 // Required fields from assessment
                 'unlocked_achievements' => $unlockedAchievements->pluck('name')->toArray(),
                 'next_available_achievements' => $nextAvailableAchievements->pluck('name')->toArray(),
                 'current_badge' => $currentBadge['name'],
                 'next_badge' => $nextBadge ? $nextBadge['name'] : null,
                 'remaining_to_unlock_next_badge' => $remainingForNextBadge,
-                
+
                 // Extra value-add fields (differentiator!)
                 'progress_percentage' => $progressPercentage,
-                
+
                 // Detailed data for rich UI
                 'achievements' => [
                     'unlocked' => $unlockedAchievements->toArray(),
                     'next_available' => $nextAvailableAchievements->toArray(),
                     'all' => $allAchievementsWithStatus->toArray(),
                 ],
-                
+
                 'badges' => [
                     'current' => $currentBadge,
                     'next' => $nextBadge,
                     'all' => $allBadges->toArray(),
                 ],
-                
+
                 // Stats for dashboard
                 'stats' => [
                     'total_purchases' => $user->purchases()->count(),

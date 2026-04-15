@@ -1,10 +1,9 @@
 import { motion } from 'framer-motion';
-import { FiAward, FiTrendingUp, FiFlag, FiDollarSign, FiShoppingCart } from 'react-icons/fi';
+import { FiTrendingUp, FiFlag, FiDollarSign, FiShoppingCart } from 'react-icons/fi';
 import { Stats, Badge } from '../types';
 
 interface StatsCardsProps {
   stats: Stats;
-  currentBadge: Badge;
   nextBadge: Badge | null;
   remainingToUnlock: number;
   progressPercentage: number;
@@ -13,7 +12,6 @@ interface StatsCardsProps {
 
 export default function StatsCards({
   stats,
-  currentBadge,
   nextBadge,
   remainingToUnlock,
   progressPercentage,
@@ -26,14 +24,6 @@ export default function StatsCards({
       value: `₦${stats.total_cashback_earned.toLocaleString()}`,
       color: 'from-emerald-500 to-green-600',
       bgColor: 'bg-emerald-50 dark:bg-emerald-900/20',
-    },
-    {
-      icon: FiAward,
-      label: 'Current Badge',
-      value: currentBadge.name,
-      color: 'from-sky-500 to-blue-600',
-      bgColor: 'bg-sky-50 dark:bg-sky-900/20',
-      helper: nextBadge ? `Next: ${nextBadge.name}` : 'Top tier reached',
     },
     {
       icon: FiFlag,
@@ -62,7 +52,7 @@ export default function StatsCards({
   ];
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-5 gap-4">
+    <div className="grid grid-cols-2 xl:grid-cols-4 gap-4">
       {cards.map((card, index) => (
         <motion.div
           key={card.label}
