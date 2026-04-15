@@ -50,8 +50,8 @@ export default function BadgeRoadmap({ badges, currentBadgeKey }: BadgeRoadmapPr
         </p>
       </div>
 
-      <div className="overflow-x-auto pb-2">
-        <div className="flex min-w-[760px] gap-4">
+      <div className="pb-2">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
           {badges.map((badge, index) => {
             const isUnlocked = index <= safeCurrentIndex;
             const isCurrent = badge.key === currentBadgeKey;
@@ -63,7 +63,7 @@ export default function BadgeRoadmap({ badges, currentBadgeKey }: BadgeRoadmapPr
                 initial={{ opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4 + index * 0.08 }}
-                className={`relative flex min-h-[184px] w-[148px] flex-col items-center justify-center rounded-2xl border p-4 text-center transition-all duration-300 ${isCurrent
+                className={`relative flex min-h-[184px] w-full flex-col items-center justify-center rounded-2xl border p-4 text-center transition-all duration-300 ${isCurrent
                     ? 'border-primary-400 bg-primary-50/70 shadow-md dark:border-primary-600 dark:bg-primary-900/20'
                     : isUnlocked
                       ? 'border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800'
