@@ -1,47 +1,63 @@
 import { motion } from 'framer-motion';
-import { FiShoppingBag, FiAward, FiTarget, FiStar, FiDollarSign } from 'react-icons/fi';
-import { Stats } from '../types';
+import { FiAward, FiTrendingUp, FiFlag, FiDollarSign, FiShoppingCart } from 'react-icons/fi';
+import { Stats, Badge } from '../types';
 
 interface StatsCardsProps {
   stats: Stats;
+  currentBadge: Badge;
+  nextBadge: Badge | null;
+  remainingToUnlock: number;
+  progressPercentage: number;
+  purchasesToNextAchievement: number;
 }
 
-export default function StatsCards({ stats }: StatsCardsProps) {
+export default function StatsCards({
+  stats,
+  currentBadge,
+  nextBadge,
+  remainingToUnlock,
+  progressPercentage,
+  purchasesToNextAchievement,
+}: StatsCardsProps) {
   const cards = [
-    {
-      icon: FiShoppingBag,
-      label: 'Total Purchases',
-      value: stats.total_purchases,
-      color: 'from-blue-500 to-cyan-500',
-      bgColor: 'bg-blue-50 dark:bg-blue-900/20',
-    },
-    {
-      icon: FiAward,
-      label: 'Achievements Unlocked',
-      value: stats.total_achievements_unlocked,
-      color: 'from-green-500 to-emerald-500',
-      bgColor: 'bg-green-50 dark:bg-green-900/20',
-    },
-    {
-      icon: FiTarget,
-      label: 'Achievements Available',
-      value: stats.total_achievements_available,
-      color: 'from-purple-500 to-pink-500',
-      bgColor: 'bg-purple-50 dark:bg-purple-900/20',
-    },
-    {
-      icon: FiStar,
-      label: 'Badge Tiers',
-      value: stats.total_badges,
-      color: 'from-yellow-500 to-orange-500',
-      bgColor: 'bg-yellow-50 dark:bg-yellow-900/20',
-    },
     {
       icon: FiDollarSign,
       label: 'Total Cashback',
       value: `₦${stats.total_cashback_earned.toLocaleString()}`,
       color: 'from-emerald-500 to-green-600',
       bgColor: 'bg-emerald-50 dark:bg-emerald-900/20',
+    },
+    {
+      icon: FiAward,
+      label: 'Current Badge',
+      value: currentBadge.name,
+      color: 'from-sky-500 to-blue-600',
+      bgColor: 'bg-sky-50 dark:bg-sky-900/20',
+      helper: nextBadge ? `Next: ${nextBadge.name}` : 'Top tier reached',
+    },
+    {
+      icon: FiFlag,
+      label: 'To Next Badge',
+      value: nextBadge ? remainingToUnlock : 0,
+      color: 'from-amber-500 to-orange-500',
+      bgColor: 'bg-amber-50 dark:bg-amber-900/20',
+      helper: nextBadge ? 'achievements left' : 'completed',
+    },
+    {
+      icon: FiTrendingUp,
+      label: 'Progress',
+      value: `${progressPercentage}%`,
+      color: 'from-fuchsia-500 to-pink-500',
+      bgColor: 'bg-fuchsia-50 dark:bg-fuchsia-900/20',
+      helper: 'towards next badge',
+    },
+    {
+      icon: FiShoppingCart,
+      label: 'To Next Achievement',
+      value: purchasesToNextAchievement,
+      color: 'from-indigo-500 to-violet-600',
+      bgColor: 'bg-indigo-50 dark:bg-indigo-900/20',
+      helper: purchasesToNextAchievement === 0 ? 'ready to unlock' : 'purchases needed',
     },
   ];
 
@@ -65,6 +81,9 @@ export default function StatsCards({ stats }: StatsCardsProps) {
           <p className="text-sm text-gray-500 dark:text-gray-400">
             {card.label}
           </p>
+          {'helper' in card && card.helper && (
+            <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">{card.helper}</p>
+          )}
         </motion.div>
       ))}
     </div>

@@ -1,13 +1,12 @@
 import { motion } from 'framer-motion';
-import { FiUser, FiMail, FiShoppingBag, FiAward } from 'react-icons/fi';
-import { UserData, Stats } from '../types';
+import { FiMail, FiUser } from 'react-icons/fi';
+import { UserData } from '../types';
 
 interface ProfileCardProps {
   user: UserData;
-  stats: Stats;
 }
 
-export default function ProfileCard({ user, stats }: ProfileCardProps) {
+export default function ProfileCard({ user }: ProfileCardProps) {
   return (
     <motion.div
       initial={{ opacity: 0, x: -20 }}
@@ -24,6 +23,10 @@ export default function ProfileCard({ user, stats }: ProfileCardProps) {
           <h2 className="text-xl font-bold text-gray-900 dark:text-white">
             {user.name}
           </h2>
+          <p className="text-gray-500 dark:text-gray-400 text-sm flex items-center gap-1 mt-1">
+            <FiUser className="w-4 h-4" />
+            Loyalty Member
+          </p>
           <p className="text-gray-500 dark:text-gray-400 text-sm flex items-center gap-1">
             <FiMail className="w-4 h-4" />
             {user.email}
@@ -31,26 +34,10 @@ export default function ProfileCard({ user, stats }: ProfileCardProps) {
         </div>
       </div>
 
-      {/* Quick Stats */}
-      <div className="space-y-3">
-        <div className="flex items-center justify-between py-2 border-b border-gray-100 dark:border-gray-700">
-          <span className="flex items-center gap-2 text-gray-600 dark:text-gray-300">
-            <FiShoppingBag className="w-4 h-4 text-primary-500" />
-            Total Purchases
-          </span>
-          <span className="font-semibold text-gray-900 dark:text-white">
-            {stats.total_purchases}
-          </span>
-        </div>
-        <div className="flex items-center justify-between py-2">
-          <span className="flex items-center gap-2 text-gray-600 dark:text-gray-300">
-            <FiAward className="w-4 h-4 text-yellow-500" />
-            Achievements
-          </span>
-          <span className="font-semibold text-gray-900 dark:text-white">
-            {stats.total_achievements_unlocked}/{stats.total_achievements_available}
-          </span>
-        </div>
+      <div className="rounded-xl bg-gray-50 dark:bg-gray-700/40 p-4 border border-gray-100 dark:border-gray-700">
+        <p className="text-sm text-gray-600 dark:text-gray-300">
+          Track your rewards journey, unlock achievements, and earn cashback as you move through badge tiers.
+        </p>
       </div>
     </motion.div>
   );
