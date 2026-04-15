@@ -18,8 +18,8 @@ class DatabaseSeeder extends Seeder
 
         // Create demo user
         $demoUser = User::factory()->create([
-            'name' => 'Demo User',
-            'email' => 'demo@example.com',
+            'name' => 'Ibimina Hart',
+            'email' => 'ibimina.c.hart@gmail.com',
         ]);
 
         // Create 4 purchases for demo user (will unlock some achievements)

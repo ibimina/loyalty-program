@@ -195,7 +195,7 @@ function App() {
 
       {/* Footer */}
       <footer className="py-6 text-center text-gray-500 dark:text-gray-400 text-sm">
-        <p>Loyalty Program Dashboard • Built with ❤️</p>
+        <p>Copyright © 2026 Loyalty Program Dashboard. Built by Ibimina Hart</p>
       </footer>
     </div>
   );
