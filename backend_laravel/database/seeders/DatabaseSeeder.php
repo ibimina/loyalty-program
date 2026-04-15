@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
         Purchase::factory()->count(4)->create(['user_id' => $demoUser->id]);
         $achievementService->processAchievements($demoUser);
 
-        $this->command->info("Created demo user: demo@example.com");
+        $this->command->info("Created demo user:  ibimina.c.hart@gmail.com");
         $this->command->info("Demo user has {$demoUser->purchases()->count()} purchases");
         $this->command->info("Demo user has {$demoUser->achievements()->count()} achievements");
 

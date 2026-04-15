@@ -6,11 +6,20 @@ A full-stack loyalty feature for an e-commerce store where customers unlock achi
 
 - Config-driven achievement and badge rules (`backend_laravel/config/achievements.php`)
 - Event-driven backend flow (`PurchaseMade` -> `AchievementUnlocked` / `BadgeUnlocked`)
-- Queued listeners for scalable processing
+- Event listeners with `sync` queue by default for deterministic local demo behavior (can switch to queued workers)
 - Cashback handled through a dedicated mock `PaymentService`
 - Rich API response with progress insights (`progress_percentage`)
 - Product-style React dashboard with animation, loading states, and micro-interactions
 - Unit + feature tests for core behavior
+
+## Requirements Coverage
+
+- Config-driven achievements and badges: implemented in `backend_laravel/config/achievements.php`
+- Event-driven processing (`PurchaseMade`, `AchievementUnlocked`, `BadgeUnlocked`): implemented in `backend_laravel/app/Events` and `backend_laravel/app/Listeners`
+- Required endpoint `GET /api/users/{user}/achievements`: implemented in `backend_laravel/routes/api.php` and `backend_laravel/app/Http/Controllers/Api/AchievementController.php`
+- Cashback simulation on badge unlock: implemented in `backend_laravel/app/Listeners/ProcessCashback.php` and `backend_laravel/app/Services/PaymentService.php`
+- Frontend dashboard displaying achievements, badge progress, and stats: implemented in `frontend/src/App.tsx` and `frontend/src/components`
+- Tests for service and API behavior: `backend_laravel/tests/Unit/AchievementServiceTest.php` and `backend_laravel/tests/Feature/AchievementApiTest.php`
 
 ## Tech Stack
 
@@ -46,7 +55,7 @@ A full-stack loyalty feature for an e-commerce store where customers unlock achi
 - `frontend/src/services/api.ts`: API client
 - `frontend/src/types/index.ts`: response typing
 
-## API Endpoint
+## API Endpoints
 
 ### Get user achievements
 
@@ -82,6 +91,13 @@ Example response (trimmed):
   }
 }
 ```
+
+### Additional demo endpoints
+
+- `GET /api/users/{user}/achievements/history`: achievement timeline/history
+- `POST /api/users/{user}/purchases`: simulate purchase for demo/testing
+- `GET /api/users/{user}/purchases`: list purchase history
+- `POST /api/users/{user}/reset-progress`: reset demo user progress (local environment only)
 
 ## Setup Instructions
 
@@ -184,6 +200,7 @@ Included tests:
 ## Demo Notes
 
 - Use the dashboard button "Simulate Purchase" to trigger purchase events.
+- Use the dashboard button "Reset Progress" to clear purchases, unlocked achievements, and cashback for repeatable demos.
 - New badges trigger cashback simulation and logs.
 - Achievement and badge progression is driven by config, not hardcoded controller logic.
 
