@@ -1,6 +1,50 @@
+
 # Loyalty Program Assessment
 
-A full-stack loyalty feature for an e-commerce store where customers unlock achievements and earn badge-based cashback rewards.
+A scalable, event-driven loyalty system for an e-commerce platform that rewards users with achievements and badge-based cashback incentives based on purchase behavior.
+
+## Engineering Approach
+
+While my primary backend experience is with Node.js, I implemented this solution using Laravel to align with the assessment requirements.
+
+I focused on applying core backend engineering principles that are transferable across frameworks, including:
+
+- Event-driven architecture for decoupled business logic
+- Config-driven rules for extensibility and maintainability
+- Clear separation of concerns using services, listeners, and controllers
+- API-first design for frontend integration
+
+This approach ensures the system remains scalable, testable, and easy to extend regardless of the underlying framework.
+
+## Architecture Decisions
+
+### Why Event-Driven Design?
+The achievement system reacts to user purchases, which are inherently events. Using Laravel events and listeners allows:
+
+- Decoupled logic (purchase system does not need to know about achievements)
+- Easier extensibility (new listeners like notifications can be added without modifying existing code)
+- Better scalability (listeners can be queued in production)
+
+### Why Config-Driven Achievements?
+Instead of hardcoding achievement logic:
+
+- New achievements can be added without changing core business logic
+- Product teams can iterate faster on reward systems
+- Reduces risk of introducing bugs when modifying rules
+
+### Why a Dedicated Payment Service?
+Cashback is handled via a mock `PaymentService` to simulate integration with external providers:
+
+- Keeps business logic clean
+- Makes it easy to swap with real payment gateways
+- Improves testability
+
+## Scalability Considerations
+
+- Event handlers are queue-ready, so processing can move to background workers in production to keep API responses fast.
+- Achievement and badge rules are configuration-driven, making updates straightforward without changing core business logic.
+- API responses include computed fields, reducing extra processing work on the frontend.
+- Core tables already include useful indexes, and query performance can be improved further as traffic grows.
 
 ## What Makes This Submission Different
 
