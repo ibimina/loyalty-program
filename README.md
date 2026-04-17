@@ -5,8 +5,6 @@ A scalable, event-driven loyalty system for an e-commerce platform that rewards 
 
 ## Engineering Approach
 
-While my primary backend experience is with Node.js, I implemented this solution using Laravel to align with the assessment requirements.
-
 I focused on applying core backend engineering principles that are transferable across frameworks, including:
 
 - Event-driven architecture for decoupled business logic
